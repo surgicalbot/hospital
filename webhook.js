@@ -202,8 +202,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
         if (result.length > 0) {
           var hospitalarray = [];
           for (var keys in result) {
-         
-            if (hospitalarray.indexOf(result[keys]["TYPE"]) < 0) {
+           if (hospitalarray.indexOf(result[keys]["TYPE"]) < 0) {
               hospitalarray.push(result[keys]["TYPE"]);
             }
           }
