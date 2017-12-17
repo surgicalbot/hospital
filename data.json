@@ -1,0 +1,28 @@
+res.json({
+    speech:"",
+    displayText: "",
+    source: 'agent',
+    "messages": [
+        {
+          "type": 4,
+          "platform": "facebook",
+          "payload": {
+            "facebook": {
+              "text": "Please Choose your Hospital?",
+              "quick_replies": [
+                {
+                  "content_type": "text",
+                  "title": "Union Hospital",
+                  "payload": "Union Hospital"
+                },
+                {
+                  "content_type": "text",
+                  "title": "Teresa Hospital",
+                  "payload": "Teresa Hospital"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    })

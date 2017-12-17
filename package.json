@@ -1,0 +1,27 @@
+{
+  "name": "surgicalchatbot",
+  "version": "1.0.0",
+  "description": "Cost of Surgery for particular treatment in particular hospital",
+  "main": "webhook.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node webhook.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/surgicalbot/hospital.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/surgicalbot/hospital/issues"
+  },
+  "homepage": "https://github.com/surgicalbot/hospital#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongodb": "^2.2.33",
+    "multer": "^1.3.0",
+    "xlsx-to-json": "^0.3.0"
+  }
+}
