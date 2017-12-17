@@ -199,7 +199,6 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
       db.collection("surgery").find({
         $and: filterarray
       }).toArray(function (err, result) {
-        console.log(result);
         if (result.length > 0) {
           var hospitalarray = [];
           for (var keys in result) {
