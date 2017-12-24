@@ -245,8 +245,12 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
           }
         }
         else{
-          const totalCost = (parameters.Statistics != "" && parameters.Statistics != null && parameters.Statistics != undefined) ? parameters.Statistics : "Median";
-          const totalCost1 = (parameters.Statistics != "" && parameters.Statistics != null && parameters.Statistics != undefined) ? parameters.Statistics : "50th percentile";
+          var totalCost;
+          totalCost = (parameters.Statistics != "" && parameters.Statistics != null && parameters.Statistics != undefined) ? parameters.Statistics : "Median";
+          if(hospitaltype.toUpperCase()=="UNION HOSPITAL")
+          {
+          totalCost = (parameters.Statistics != "" && parameters.Statistics != null && parameters.Statistics != undefined) ? parameters.Statistics : "50th percentile";
+          }
           mongodb.MongoClient.connect("mongodb://admin:admin123@ds149335.mlab.com:49335/hospital", function (err, database) {
             var db = database;
             if (err) {
@@ -257,10 +261,10 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
               { $or: [{ "HOSPITAL": hospitaltype.toLowerCase() }, { "HOSPITAL": hospitaltype.toUpperCase() }, { "HOSPITAL": capitalizeFirstLetter(hospitaltype) }, { "HOSPITAL": toTitleCase(hospitaltype) }] },
               { $or: [{ "TYPE": treatmentyp.toLowerCase() }, { "TYPE": treatmentyp.toUpperCase() }, { "TYPE": capitalizeFirstLetter(treatmentyp) }, { "TYPE": toTitleCase(treatmentyp) }] },
               { $or: [{ "Operation": surgicaltyp.toLowerCase() }, { "Operation": surgicaltyp.toUpperCase() }, { "Operation": capitalizeFirstLetter(surgicaltyp) }, { "Operation": toTitleCase(surgicaltyp) }] },
-              { $or: [{ "Statistics": totalCost.toLowerCase() }, { "Statistics": totalCost.toUpperCase() }, { "Statistics": capitalizeFirstLetter(totalCost) }, { "Statistics": toTitleCase(totalCost) }] },
-              { $or: [{ "Statistics": totalCost1.toLowerCase() }, { "Statistics": totalCost1.toUpperCase() }, { "Statistics": capitalizeFirstLetter(totalCost1) }, { "Statistics": toTitleCase(totalCost1) }] }
+              { $or: [{ "Statistics": totalCost.toLowerCase() }, { "Statistics": totalCost.toUpperCase() }, { "Statistics": capitalizeFirstLetter(totalCost) }, { "Statistics": toTitleCase(totalCost) }] }
+              
             ]
-            
+
             db.collection("surgery").find({
               $and: filterarray
             }).toArray(function (err1, result1) {
