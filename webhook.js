@@ -270,12 +270,44 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
                   }
                 }
                 if (html) {
+                  db.collection("surgery").find({
+                    $and: [{ $or: [{ "HOSPITAL": hospitaltype.toLowerCase() }, { "HOSPITAL": hospitaltype.toUpperCase() }, { "HOSPITAL": capitalizeFirstLetter(hospitaltype) }, { "HOSPITAL": toTitleCase(hospitaltype) }] }]
+                  }).toArray(function (err2, result2) {
+                  var finallarray = [];
+                  var hospitalarray = [];
+                  for (var keys in result) {
+                   if (hospitalarray.indexOf(result[keys]["HOSPITAL"]) < 0) {
+                    if(result[keys]["HOSPITAL"]){
+                      hospitalarray.push(result[keys]["HOSPITAL"]);
+                    }
+                    }
+                  }
+                  for (var treatsurgiment in hospitalarray) {
+                    var html1 = {};
+                    html1["title"] = hospitalarray[treatsurgiment];
+                    html1["payload"] = hospitalarray[treatsurgiment];
+                    html1["content_type"] = "text";
+                    finallarray.push(html1);
+                  }
                   html += "\ninterested in min/max/median case instead? or other hospital?";
-                  res.status(200).json({
-                    source: 'webhook',
-                    speech: html,
-                    displayText: html
+                  res.json({
+                    speech: "",
+                    displayText: "",
+                    source: 'agent',
+                    "messages": [
+                      {
+                        "type": 4,
+                        "platform": "facebook",
+                        "payload": {
+                          "facebook": {
+                            "text": html,
+                            "quick_replies": finallarray
+                          }
+                        }
+                      }
+                    ]
                   })
+                })
                 }
               }
               else 
