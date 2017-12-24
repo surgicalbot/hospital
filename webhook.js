@@ -260,6 +260,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
               { $or: [{ "Statistics": totalCost.toLowerCase() }, { "Statistics": totalCost.toUpperCase() }, { "Statistics": capitalizeFirstLetter(totalCost) }, { "Statistics": toTitleCase(totalCost) }] },
               { $or: [{ "Statistics": totalCost1.toLowerCase() }, { "Statistics": totalCost1.toUpperCase() }, { "Statistics": capitalizeFirstLetter(totalCost1) }, { "Statistics": toTitleCase(totalCost1) }] }
             ]
+            
             db.collection("surgery").find({
               $and: filterarray
             }).toArray(function (err1, result1) {
