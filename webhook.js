@@ -245,7 +245,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
           }
         }
         else{
-          const totalCost = (parameters.Statistics != "" && parameters.Statistics != null && parameters.Statistics != undefined) ? parameters.Statistics : "Median" || "50th percentile";
+          const totalCost = (parameters.Statistics != "" && parameters.Statistics != null && parameters.Statistics != undefined) ? parameters.Statistics : "Median";
           mongodb.MongoClient.connect("mongodb://admin:admin123@ds149335.mlab.com:49335/hospital", function (err, database) {
             var db = database;
             if (err) {
