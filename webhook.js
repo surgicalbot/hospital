@@ -266,11 +266,11 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
               if (result1.length > 0) {
                 for (var key in result1[0]) {
                   if (key != '_id' && key.toLowerCase() != "date") {
-                    html += `${key}: ${result1[0][key]}\n`;
+                    html += `${key}: ${result1[0][key]}&#10`;
                   }
                 }
                 if (html) {
-                  html += "\ninterested in min/max/median case instead? or other hospital?";
+                  html += "&#10interested in min/max/median case instead? or other hospital?";
                   res.status(200).json({
                     source: 'webhook',
                     speech: html,
