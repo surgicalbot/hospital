@@ -187,6 +187,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
   if (action == "hospital.operation") {
     var hospitalarray = [];
     const hospitaltype = parameters.hospital_type != '' ? parameters.hospital_type : "";
+    const treatmentyp = parameters.treatment_type != '' ? parameters.treatment_type : "";
     mongodb.MongoClient.connect("mongodb://admin:admin123@ds149335.mlab.com:49335/hospital", function (err, database) {
       var db = database;
       if (err) {
@@ -194,7 +195,8 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
 
       }
       filterarray = [
-        { $or: [{ "TYPE": hospitaltype.toLowerCase() }, { "TYPE": hospitaltype.toUpperCase() }, { "TYPE": capitalizeFirstLetter(hospitaltype) }, { "TYPE": toTitleCase(hospitaltype) }] }
+        { $or: [{ "HOSPITAL": hospitaltype.toLowerCase() }, { "HOSPITAL": hospitaltype.toUpperCase() }, { "HOSPITAL": capitalizeFirstLetter(hospitaltype) }, { "HOSPITAL": toTitleCase(hospitaltype) }] },
+        { $or: [{ "TYPE": treatmentyp.toLowerCase() }, { "TYPE": treatmentyp.toUpperCase() }, { "TYPE": capitalizeFirstLetter(treatmentyp) }, { "TYPE": toTitleCase(treatmentyp) }] }
       ]
       db.collection("surgery").find({
         $and: filterarray
