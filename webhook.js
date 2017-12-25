@@ -210,7 +210,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
         var html = '';
         if (result1.length > 0) {
           for (var key in result1[0]) {
-            if (key != '_id' && key.toLowerCase() != "date") {
+            if (key != '_id' && key!="" && key.toLowerCase() != "date") {
               html += `${key}: ${result1[0][key]}\n`;
             }
           }
