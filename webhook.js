@@ -734,9 +734,10 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
             var html = '';
             if (result1.length > 0) {
               for(var key1 in result1){
+                console.log(key1);
               if(key1["Statistics"]=="50th percentile" || key1["Statistics"]=="Median")
               {
-              console.log(key1);
+              
               for (var key in key1) {
                 if (key != '_id' && key.toLowerCase() != "date") {
                   html += `${key}: ${key1[key]}\n`;
