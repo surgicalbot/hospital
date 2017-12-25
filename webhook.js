@@ -729,7 +729,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
           db.collection("surgery").find({
             $and: filterarray
           }).toArray(function (err1, result1) {
-           
+           console.log(result1)
             if (err1) throw err1;
             var html = '';
             if (result1.length > 0) {
@@ -742,6 +742,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
                 db.collection("surgery").find({
                   $and: [{ $or: [{ "HOSPITAL": hospitaltype.toLowerCase() }, { "HOSPITAL": hospitaltype.toUpperCase() }, { "HOSPITAL": capitalizeFirstLetter(hospitaltype) }, { "HOSPITAL": toTitleCase(hospitaltype) }] }]
                 }).toArray(function (err2, result2) {
+                console.log("srini");
                 console.log(result2);
                 var finallarray = [];
                 var hospitalarray = [];
