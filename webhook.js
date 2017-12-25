@@ -713,35 +713,52 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
   if (action == "input.hospital") {
 
     var surgicalarray = [];
+    const hospitaltype = parameters.hospital_type != '' ? parameters.hospital_type : "";
     const surgicaltyp = parameters.surgical_type != '' ? parameters.surgical_type : "";
+    const operationopt=parameters.operation_options != '' ? parameters.operation_options : "";
     mongodb.MongoClient.connect("mongodb://admin:admin123@ds149335.mlab.com:49335/hospital", function (err, database) {
       var db = database;
       if (err) {
         console.log(err);
       }
       filterarray = [
-        { $or: [{ "Operation": surgicaltyp.toLowerCase() }, { "Operation": surgicaltyp.toUpperCase() }, { "Operation": capitalizeFirstLetter(surgicaltyp) }, { "Operation": toTitleCase(surgicaltyp) }] }
+        { $or: [{ "operation Options": operationopt.toLowerCase() }, { "operation Options": operationopt.toUpperCase() }, { "operation Options": capitalizeFirstLetter(operationopt) }, { "operation Options": toTitleCase(operationopt) }] },
+        { $or: [{ "Operation": surgicaltyp.toLowerCase() }, { "Operation": surgicaltyp.toUpperCase() }, { "Operation": capitalizeFirstLetter(surgicaltyp) }, { "Operation": toTitleCase(surgicaltyp) }] },
+        { $or: [{ "HOSPITAL": hospitaltype.toLowerCase() }, { "HOSPITAL": hospitaltype.toUpperCase() }, { "HOSPITAL": capitalizeFirstLetter(hospitaltype) }, { "HOSPITAL": toTitleCase(hospitaltype) }] }
       ]
       db.collection("surgery").find({
         $and: filterarray
-      }).toArray(function (err, result) {
-        var surgicalarray = [];
-        if (result.length > 0) {
-          for (var keys in result) {
-         
-            if (surgicalarray.indexOf(result[keys]["operation Options"]) < 0 && result[keys]["operation Options"]) {
-              surgicalarray.push(result[keys]["operation Options"]);
+      }).toArray(function (err1, result1) {
+       
+        if (err1) throw err1;
+        var html = '';
+        if (result1.length > 0) {
+          for (var key in result1[0]) {
+            if (key != '_id' && key.toLowerCase() != "date") {
+              html += `${key}: ${result1[0][key]}\n`;
             }
           }
-          var finallarray = [];
-          for (var treatsurgiment in surgicalarray) {
-            var html = {};
-            html["title"] = surgicalarray[treatsurgiment];
-            html["payload"] = surgicalarray[treatsurgiment];
-            html["content_type"] = "text";
-            finallarray.push(html);
-          }
           if (html) {
+            db.collection("surgery").find({
+              $and: [{ $or: [{ "HOSPITAL": hospitaltype.toLowerCase() }, { "HOSPITAL": hospitaltype.toUpperCase() }, { "HOSPITAL": capitalizeFirstLetter(hospitaltype) }, { "HOSPITAL": toTitleCase(hospitaltype) }] }]
+            }).toArray(function (err2, result2) {
+            var finallarray = [];
+            var hospitalarray = [];
+            for (var keys in result) {
+             if (hospitalarray.indexOf(result[keys]["Statistics"]) < 0) {
+              if(result[keys]["Statistics"]){
+                hospitalarray.push(result[keys]["Statistics"]);
+              }
+              }
+            }
+            for (var treatsurgiment in hospitalarray) {
+              var html1 = {};
+              html1["title"] = hospitalarray[treatsurgiment];
+              html1["payload"] = hospitalarray[treatsurgiment];
+              html1["content_type"] = "text";
+              finallarray.push(html1);
+            }
+            html += "\ninterested in min/max/median case instead? or other hospital?";
             res.json({
               speech: "",
               displayText: "",
@@ -752,23 +769,24 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
                   "platform": "facebook",
                   "payload": {
                     "facebook": {
-                      "text": "Please Choose Operation Options?",
+                      "text": html,
                       "quick_replies": finallarray
                     }
                   }
                 }
               ]
             })
+          })
           }
         }
-        else {
-          res.status(200).json({
-            source: 'webhook',
-            speech: "I didnt get that",
-            displayText: "I didnt get that"
-          })
-        }
-
+        else 
+        {
+            res.status(200).json({
+              source: 'webhook',
+              speech: "I didnt get that",
+              displayText: "I didnt get that"
+            })
+          }
       });
       db.close();
     });
