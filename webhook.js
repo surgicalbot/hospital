@@ -716,6 +716,11 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
         const hospitaltype = parameters.hospital_type != '' ? parameters.hospital_type : "";
         const surgicaltyp = parameters.surgical_type != '' ? parameters.surgical_type : "";
         const operationopt=parameters.operation_options != '' ? parameters.operation_options : "";
+        var totalCost;
+        if(parameters.Statistics)
+        {
+          totalCost = (parameters.Statistics != "" && parameters.Statistics != null && parameters.Statistics != undefined) ? parameters.Statistics : "";
+        }
         mongodb.MongoClient.connect("mongodb://admin:admin123@ds149335.mlab.com:49335/hospital", function (err, database) {
           var db = database;
           if (err) {
