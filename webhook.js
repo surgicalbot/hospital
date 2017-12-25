@@ -656,7 +656,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
         console.log(err);
       }
       filterarray = [
-        { $or: [{ "OPERATION": surgicaltyp.toLowerCase() }, { "OPERATION": surgicaltyp.toUpperCase() }, { "OPERATION": capitalizeFirstLetter(surgicaltyp) }, { "OPERATION": toTitleCase(surgicaltyp) }] }
+        { $or: [{ "Operation": surgicaltyp.toLowerCase() }, { "Operation": surgicaltyp.toUpperCase() }, { "Operation": capitalizeFirstLetter(surgicaltyp) }, { "Operation": toTitleCase(surgicaltyp) }] }
       ]
       db.collection("surgery").find({
         $and: filterarray
@@ -664,9 +664,9 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
         var surgicalarray = [];
         if (result.length > 0) {
           for (var keys in result) {
-            console.log(result[keys]["HOSPITAL"]);
-            if (surgicalarray.indexOf(result[keys]["HOSPITAL"]) < 0) {
-              surgicalarray.push(result[keys]["HOSPITAL"]);
+            console.log(result[keys]["operation Options"]);
+            if (surgicalarray.indexOf(result[keys]["operation Options"]) < 0) {
+              surgicalarray.push(result[keys]["operation Options"]);
             }
           }
           var finallarray = [];
@@ -688,7 +688,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
                   "platform": "facebook",
                   "payload": {
                     "facebook": {
-                      "text": "Please Choose your Hospital?",
+                      "text": "Please Choose Operation Options?",
                       "quick_replies": finallarray
                     }
                   }
