@@ -664,8 +664,8 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
         var surgicalarray = [];
         if (result.length > 0) {
           for (var keys in result) {
-            console.log(result[keys]["operation Options"]);
-            if (surgicalarray.indexOf(result[keys]["operation Options"]) < 0) {
+         
+            if (surgicalarray.indexOf(result[keys]["operation Options"]) < 0 && result[keys]["operation Options"]) {
               surgicalarray.push(result[keys]["operation Options"]);
             }
           }
