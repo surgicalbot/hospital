@@ -189,7 +189,6 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
     const hospitaltype = parameters.hospital_type != '' ? parameters.hospital_type : "";
     const treatmentyp = parameters.treatment_type != '' ? parameters.treatment_type : "";
     const surgicaltyp = parameters.surgical_type != '' ? parameters.surgical_type : "";
-    const operationopt = parameters.operation_options != '' ? parameters.operation_options : "";
     var totalCost;
     totalCost = (parameters.Statistics != "" && parameters.Statistics != null && parameters.Statistics != undefined) ? parameters.Statistics : "Median";
     if(hospitaltype.toUpperCase()=="UNION HOSPITAL")
@@ -206,8 +205,8 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
         { $or: [{ "HOSPITAL": hospitaltype.toLowerCase() }, { "HOSPITAL": hospitaltype.toUpperCase() }, { "HOSPITAL": capitalizeFirstLetter(hospitaltype) }, { "HOSPITAL": toTitleCase(hospitaltype) }] },
         { $or: [{ "TYPE": treatmentyp.toLowerCase() }, { "TYPE": treatmentyp.toUpperCase() }, { "TYPE": capitalizeFirstLetter(treatmentyp) }, { "TYPE": toTitleCase(treatmentyp) }] },
         { $or: [{ "Operation": surgicaltyp.toLowerCase() }, { "Operation": surgicaltyp.toUpperCase() }, { "Operation": capitalizeFirstLetter(surgicaltyp) }, { "Operation": toTitleCase(surgicaltyp) }] },
-        { $or: [{ "Statistics": totalCost.toLowerCase() }, { "Statistics": totalCost.toUpperCase() }, { "Statistics": capitalizeFirstLetter(totalCost) }, { "Statistics": toTitleCase(totalCost) }] },
-        { $or: [{ "operation Options": operationopt.toLowerCase() }, { "operation Options": operationopt.toUpperCase() }, { "operation Options": capitalizeFirstLetter(operationopt) }, { "operation Options": toTitleCase(operationopt) }] }
+        { $or: [{ "Statistics": totalCost.toLowerCase() }, { "Statistics": totalCost.toUpperCase() }, { "Statistics": capitalizeFirstLetter(totalCost) }, { "Statistics": toTitleCase(totalCost) }] }
+       
         
       ]
       db.collection("surgery").find({
