@@ -742,6 +742,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
                 db.collection("surgery").find({
                   $and: [{ $or: [{ "HOSPITAL": hospitaltype.toLowerCase() }, { "HOSPITAL": hospitaltype.toUpperCase() }, { "HOSPITAL": capitalizeFirstLetter(hospitaltype) }, { "HOSPITAL": toTitleCase(hospitaltype) }] }]
                 }).toArray(function (err2, result2) {
+                console.log(result2);
                 var finallarray = [];
                 var hospitalarray = [];
                 for (var keys in result2) {
