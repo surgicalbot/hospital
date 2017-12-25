@@ -648,7 +648,8 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
   }
   if(action=="input.operationoptions"){
     var hospitalarray = [];
-    const hospitaltype = parameters.hospital_type != '' ? parameters.hospital_type : "";
+    const surgicaltyp = parameters.surgical_type != '' ? parameters.surgical_type : "";
+    const operationopt=parameters.operation_options != '' ? parameters.operation_options : "";
     mongodb.MongoClient.connect("mongodb://admin:admin123@ds149335.mlab.com:49335/hospital", function (err, database) {
       var db = database;
       if (err) {
@@ -656,7 +657,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
 
       }
       filterarray = [
-        { $or: [{ "operation Options": hospitaltype.toLowerCase() }, { "operation Options": hospitaltype.toUpperCase() }, { "operation Options": capitalizeFirstLetter(hospitaltype) }, { "operation Options": toTitleCase(hospitaltype) }] },
+        { $or: [{ "operation Options": operationopt.toLowerCase() }, { "operation Options": operationopt.toUpperCase() }, { "operation Options": capitalizeFirstLetter(operationopt) }, { "operation Options": toTitleCase(operationopt) }] },
         { $or: [{ "Operation": surgicaltyp.toLowerCase() }, { "Operation": surgicaltyp.toUpperCase() }, { "Operation": capitalizeFirstLetter(surgicaltyp) }, { "Operation": toTitleCase(surgicaltyp) }] }
       ]
       db.collection("surgery").find({
