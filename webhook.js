@@ -746,7 +746,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
               "payload": {
                 "facebook": {
                   "text": "Please Select the type",
-                  "quick_replies": hospitalarray
+                  "quick_replies":finallarray
                 }
               }
             }
