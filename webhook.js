@@ -220,10 +220,10 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
             }).toArray(function (err2, result2) {
             var finallarray = [];
             var hospitalarray = [];
-            for (var keys in result) {
-             if (hospitalarray.indexOf(result[keys]["Statistics"]) < 0) {
-              if(result[keys]["Statistics"]){
-                hospitalarray.push(result[keys]["Statistics"]);
+            for (var keys in result2) {
+             if (hospitalarray.indexOf(result2[keys]["Statistics"]) < 0) {
+              if(result2[keys]["Statistics"]){
+                hospitalarray.push(result2[keys]["Statistics"]);
               }
               }
             }
