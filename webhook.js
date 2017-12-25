@@ -733,23 +733,25 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
             if (err1) throw err1;
             var html = '';
             if (result1.length > 0) {
-              for (var key in result1[0]) {
+              for(var key1 in result1){
+              if(key1["Statistics"]=="50th percentile" || key1["Statistics"]=="Median")
+              {
+              for (var key in key1) {
                 if (key != '_id' && key.toLowerCase() != "date") {
-                  html += `${key}: ${result1[0][key]}\n`;
+                  html += `${key}: ${key1[key]}\n`;
                 }
               }
+            }
+            }
               if (html) {
-                db.collection("surgery").find({
-                  $and: [{ $or: [{ "HOSPITAL": hospitaltype.toLowerCase() }, { "HOSPITAL": hospitaltype.toUpperCase() }, { "HOSPITAL": capitalizeFirstLetter(hospitaltype) }, { "HOSPITAL": toTitleCase(hospitaltype) }] }]
-                }).toArray(function (err2, result2) {
                 console.log("srini");
-                console.log(result2);
+              
                 var finallarray = [];
                 var hospitalarray = [];
-                for (var keys in result2) {
-                 if (hospitalarray.indexOf(result2[keys]["Statistics"]) < 0) {
-                  if(result2[keys]["Statistics"]){
-                    hospitalarray.push(result2[keys]["Statistics"]);
+                for (var keys in result1) {
+                 if (hospitalarray.indexOf(result1[keys]["Statistics"]) < 0) {
+                  if(result1[keys]["Statistics"]){
+                    hospitalarray.push(result1[keys]["Statistics"]);
                   }
                   }
                 }
@@ -778,7 +780,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
                     }
                   ]
                 })
-              })
+            
               }
             }
             else 
