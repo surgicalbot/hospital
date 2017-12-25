@@ -190,6 +190,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
     const treatmentyp = parameters.treatment_type != '' ? parameters.treatment_type : "";
     const surgicaltyp = parameters.surgical_type != '' ? parameters.surgical_type : "";
     const totalCost = (parameters.Statistics != "" && parameters.Statistics != null && parameters.Statistics != undefined) ? parameters.Statistics : "";
+    console.log(hospitaltype+treatmentyp+surgicaltyp+totalCost);
     mongodb.MongoClient.connect("mongodb://admin:admin123@ds149335.mlab.com:49335/hospital", function (err, database) {
       var db = database;
       if (err) {
