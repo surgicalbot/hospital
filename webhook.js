@@ -122,6 +122,50 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
       db.close();
     });
   }
+  if(action == "input.operationlist"){
+        mongodb.MongoClient.connect("mongodb://admin:admin123@ds149335.mlab.com:49335/hospital", function (err, database) {
+      var db = database;
+      if (err) {
+        console.log(err);
+      }
+      db.collection("surgery").find().toArray(function (err1, result1) {
+        var hospitalarray = [];
+        var finallarray=[];
+        for (var keys in result1) {
+         if (hospitalarray.indexOf(result1[keys]["Operation"]) < 0) {
+          if(result1[keys]["Operation"]){
+            hospitalarray.push(result1[keys]["Operation"]);
+          }
+          }
+        }
+        for (var treatsurgiment in hospitalarray) {
+          var html1 = {};
+          html1["title"] = hospitalarray[treatsurgiment];
+          html1["payload"] = hospitalarray[treatsurgiment];
+          html1["content_type"] = "text";
+          finallarray.push(html1);
+        }
+     
+        res.json({
+          speech: "",
+          displayText: "",
+          source: 'agent',
+          "messages": [
+            {
+              "type": 4,
+              "platform": "facebook",
+              "payload": {
+                "facebook": {
+                  "text": "Please Select the Operation List",
+                  "quick_replies":finallarray
+                }
+              }
+            }
+          ]
+        })
+      });
+    });
+  }
   if(action == "input.hospitallist"){
     mongodb.MongoClient.connect("mongodb://admin:admin123@ds149335.mlab.com:49335/hospital", function (err, database) {
       var db = database;
