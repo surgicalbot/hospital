@@ -126,6 +126,51 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
       db.close();
     });
   }
+  if(action=="input.next"){
+    var finalarray=[];
+    var hospitalarray=req.cookies["cookie1"].toString();
+    var counter=parseInt(req.cookies["cookie2"]);
+    var counterstore=parseInt(req.cookies["cookie2"])+8;
+    var incrm=0;
+    if(hospitalarray.length<counterstore){
+    var html1 = {};
+          html1["title"] = "prev";
+          html1["payload"] = "prev";
+          html1["content_type"] = "text";
+          finalarray.push(html1); 
+    for (var treatsurgiment in hospitalarray) {
+          html1 = {};
+          html1["title"] = hospitalarray[treatsurgiment];
+          html1["payload"] = hospitalarray[treatsurgiment];
+          html1["content_type"] = "text";
+          finalarray.push(html1);
+          incrm++;
+    }
+          html1 = {};
+          html1["title"] = "next";
+          html1["payload"] = "next";
+          html1["content_type"] = "text";
+          finalarray.push(html1); 
+    }
+    else if(hospitalarray.length>counterstore){
+         var html1 = {};
+          html1["title"] = "next";
+          html1["payload"] = "next";
+          html1["content_type"] = "text";
+          finalarray.push(html1); 
+      for (var treatsurgiment in hospitalarray) {
+          html1 = {};
+          html1["title"] = hospitalarray[treatsurgiment];
+          html1["payload"] = hospitalarray[treatsurgiment];
+          html1["content_type"] = "text";
+          finalarray.push(html1);
+    }
+    }
+
+  }
+  if(action=="input.prev"){
+    
+  }
   if(action == "input.operationlist"){
         mongodb.MongoClient.connect("mongodb://admin:admin123@ds149335.mlab.com:49335/hospital", function (err, database) {
       var db = database;
@@ -172,6 +217,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
         }
        
         res.cookie("cookie1",hospitalarray,{expire:new Date()+1});
+        res.cookie("cookie2",incrme,{expire:new Date()+1});
         res.json({
           speech: "",
           displayText: "",
