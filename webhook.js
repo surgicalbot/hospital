@@ -155,9 +155,10 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
           html1["payload"] = hospitalarray[treatsurgiment];
           html1["content_type"] = "text";
           finalarray.push(html1);
-          incrm++;
+          
        
       }
+      incrm++;
     }
           html1 = {};
           html1["title"] = "next";
