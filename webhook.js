@@ -132,9 +132,16 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
     console.log(req.cookies["cookie1"]);
     console.log("----------------------------------------------------------------------");
     console.log(req.cookies["cookie2"]);
+ 
     var counter=parseInt(req.cookies["cookie2"]);
     var counterstore=parseInt(req.cookies["cookie2"])+8;
     var incrm=0;
+    console.log("----------------------------Counter------------------------------------------");
+    console.log(counter);
+    console.log("----------------------------Counterstore------------------------------------------");
+    console.log(counterstore);
+    console.log("--------------------------------Hospitallen------------------------------------------");
+    console.log(hospitalarray);
     if(hospitalarray.length>counterstore){
     var html1 = {};
           html1["title"] = "prev";
