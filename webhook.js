@@ -259,7 +259,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
           html1["payload"] = "next";
           html1["content_type"] = "text";
           finalarray.push(html1); 
-        res.cookie("cookie2",counter,{expire:new Date()+1});
+       
        res.json({
           speech: "",
           displayText: "",
@@ -282,7 +282,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
          var html1 = {};
           
       for (var treatsurgiment in hospitalarray) {
-      if(incrm<=counterstore && incrm>=counter){  
+      if(incrm>=counterstore && incrm<=counter){  
           html1 = {};
           html1["title"] = hospitalarray[treatsurgiment];
           html1["payload"] = hospitalarray[treatsurgiment];
@@ -296,6 +296,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
           html1["payload"] = "next";
           html1["content_type"] = "text";
           finalarray.push(html1); 
+       res.cookie("cookie2",counter,{expire:new Date()+1});
        res.json({
           speech: "",
           displayText: "",
