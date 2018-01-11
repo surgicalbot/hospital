@@ -141,7 +141,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
     console.log("----------------------------Counterstore------------------------------------------");
     console.log(counterstore);
     console.log("--------------------------------Hospitallen------------------------------------------");
-    console.log(hospitalarray);
+    console.log(hospitalarray.length);
     if(hospitalarray.length>counterstore){
     var html1 = {};
           html1["title"] = "prev";
