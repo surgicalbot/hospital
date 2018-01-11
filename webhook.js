@@ -132,27 +132,31 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
     var counter=parseInt(req.cookies["cookie2"]);
     var counterstore=parseInt(req.cookies["cookie2"])+8;
     var incrm=0;
-    if(hospitalarray.length<counterstore){
+    if(hospitalarray.length>counterstore){
     var html1 = {};
           html1["title"] = "prev";
           html1["payload"] = "prev";
           html1["content_type"] = "text";
           finalarray.push(html1); 
     for (var treatsurgiment in hospitalarray) {
+      if(incrm<=counterstore && incrm>=counter){
           html1 = {};
           html1["title"] = hospitalarray[treatsurgiment];
           html1["payload"] = hospitalarray[treatsurgiment];
           html1["content_type"] = "text";
           finalarray.push(html1);
           incrm++;
+       
+      }
     }
           html1 = {};
           html1["title"] = "next";
           html1["payload"] = "next";
           html1["content_type"] = "text";
           finalarray.push(html1); 
+        res.cookie("cookie2",incrm,{expire:new Date()+1});
     }
-    else if(hospitalarray.length>counterstore){
+    else if(hospitalarray.length<counterstore){
          var html1 = {};
           html1["title"] = "next";
           html1["payload"] = "next";
@@ -166,7 +170,23 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
           finalarray.push(html1);
     }
     }
-
+        res.json({
+          speech: "",
+          displayText: "",
+          source: 'agent',
+          "messages": [
+            {
+              "type": 4,
+              "platform": "facebook",
+              "payload": {
+                "facebook": {
+                  "text": "Please Select the Operation List",
+                  "quick_replies":finalarray
+                }
+              }
+            }
+          ]
+        })
   }
   if(action=="input.prev"){
     
