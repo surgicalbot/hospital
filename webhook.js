@@ -8,6 +8,10 @@ var multer = require('multer');
 var path = require('path');
 var fs = require('fs');
 var xlsxj = require("xlsx-to-json");
+var session = require('express-session');
+var cookieparser = require('cookie-parser');
+app.use(cookieparser());
+app.use(session({ secret: 'srinivasan' }));
 var storage = multer.diskStorage({
 destination: function (req, file, callback) {
   callback(null, './uploads');
@@ -138,14 +142,36 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
           }
           }
         }
-        for (var treatsurgiment in hospitalarray) {
+        if(hospitalarray.length < 10){
+         for (var treatsurgiment in hospitalarray) {
           var html1 = {};
           html1["title"] = hospitalarray[treatsurgiment];
           html1["payload"] = hospitalarray[treatsurgiment];
           html1["content_type"] = "text";
           finallarray.push(html1);
+        }  
         }
-     
+        if(hospitalarray.length>10){
+         var incrme=0;
+         for (var treatsurgiment in hospitalarray) {
+          var html1 = {};
+          if(incrme<10){
+          html1["title"] = hospitalarray[treatsurgiment];
+          html1["payload"] = hospitalarray[treatsurgiment];
+          html1["content_type"] = "text";
+          finallarray.push(html1);
+          }else if(incrme==10){
+          html1["title"] = "next";
+          html1["payload"] = incrme-1;
+          html1["content_type"] = "text";
+          finallarray.push(html1);
+          break;
+          }
+           incrme++;
+        }
+        }
+       
+        res.cookie("cookie1",shortid.generate(),{expire:new Date()+1});
         res.json({
           speech: "",
           displayText: "",
