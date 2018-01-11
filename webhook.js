@@ -191,11 +191,14 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
           html1["content_type"] = "text";
           finalarray.push(html1); 
       for (var treatsurgiment in hospitalarray) {
+      if(incrm<=counterstore && incrm>=counter){  
           html1 = {};
           html1["title"] = hospitalarray[treatsurgiment];
           html1["payload"] = hospitalarray[treatsurgiment];
           html1["content_type"] = "text";
           finalarray.push(html1);
+      }
+      incrm++;
     }
        res.json({
           speech: "",
