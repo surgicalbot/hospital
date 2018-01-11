@@ -169,8 +169,8 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
     }
     else if((hospitalarray.length-counterstore)<=10){
          var html1 = {};
-          html1["title"] = "next";
-          html1["payload"] = "next";
+          html1["title"] = "prev";
+          html1["payload"] = "prev";
           html1["content_type"] = "text";
           finalarray.push(html1); 
       for (var treatsurgiment in hospitalarray) {
