@@ -166,22 +166,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
           html1["content_type"] = "text";
           finalarray.push(html1); 
         res.cookie("cookie2",counterstore,{expire:new Date()+1});
-    }
-    else if((hospitalarray.length-counterstore)<=10){
-         var html1 = {};
-          html1["title"] = "prev";
-          html1["payload"] = "prev";
-          html1["content_type"] = "text";
-          finalarray.push(html1); 
-      for (var treatsurgiment in hospitalarray) {
-          html1 = {};
-          html1["title"] = hospitalarray[treatsurgiment];
-          html1["payload"] = hospitalarray[treatsurgiment];
-          html1["content_type"] = "text";
-          finalarray.push(html1);
-    }
-    }
-        res.json({
+       res.json({
           speech: "",
           displayText: "",
           source: 'agent',
@@ -198,6 +183,39 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
             }
           ]
         })
+    }
+    else if((hospitalarray.length-counterstore)<=10){
+         var html1 = {};
+          html1["title"] = "prev";
+          html1["payload"] = "prev";
+          html1["content_type"] = "text";
+          finalarray.push(html1); 
+      for (var treatsurgiment in hospitalarray) {
+          html1 = {};
+          html1["title"] = hospitalarray[treatsurgiment];
+          html1["payload"] = hospitalarray[treatsurgiment];
+          html1["content_type"] = "text";
+          finalarray.push(html1);
+    }
+       res.json({
+          speech: "",
+          displayText: "",
+          source: 'agent',
+          "messages": [
+            {
+              "type": 4,
+              "platform": "facebook",
+              "payload": {
+                "facebook": {
+                  "text": "Please Select the Operation List",
+                  "quick_replies":finalarray
+                }
+              }
+            }
+          ]
+        })
+    }
+       
   }
   if(action=="input.prev"){
     
