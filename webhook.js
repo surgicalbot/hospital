@@ -157,7 +157,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
           html1["payload"] = "next";
           html1["content_type"] = "text";
           finalarray.push(html1); 
-        res.cookie("cookie2",incrm,{expire:new Date()+1});
+        res.cookie("cookie2",counterstore,{expire:new Date()+1});
     }
     else if(hospitalarray.length<counterstore){
          var html1 = {};
