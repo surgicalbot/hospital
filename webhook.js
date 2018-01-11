@@ -129,6 +129,9 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
   if(action=="input.next"){
     var finalarray=[];
     var hospitalarray=req.cookies["cookie1"];
+    console.log(req.cookies["cookie1"]);
+    console.log("----------------------------------------------------------------------");
+    console.log(req.cookies["cookie2"]);
     var counter=parseInt(req.cookies["cookie2"]);
     var counterstore=parseInt(req.cookies["cookie2"])+8;
     var incrm=0;
