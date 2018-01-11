@@ -227,8 +227,8 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
     console.log("----------------------------------------------------------------------");
     console.log(req.cookies["cookie2"]);
  
-    var counter=parseInt(req.cookies["cookie2"]);
-    var counterstore=parseInt(req.cookies["cookie2"])-8;
+    var counter=parseInt(req.cookies["cookie2"])-8;
+    var counterstore=parseInt(req.cookies["cookie2"]);
     var incrm=0;
     console.log("----------------------------Counter------------------------------------------");
     console.log(counter);
