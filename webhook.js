@@ -171,7 +171,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
         }
         }
        
-        res.cookie("cookie1",shortid.generate(),{expire:new Date()+1});
+        res.cookie("cookie1",hospitalarray,{expire:new Date()+1});
         res.json({
           speech: "",
           displayText: "",
