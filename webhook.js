@@ -167,7 +167,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
           finalarray.push(html1); 
         res.cookie("cookie2",counterstore,{expire:new Date()+1});
     }
-    else if(hospitalarray.length<counterstore){
+    else if((hospitalarray.length-counterstore)<=10){
          var html1 = {};
           html1["title"] = "next";
           html1["payload"] = "next";
