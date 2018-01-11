@@ -259,7 +259,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
           html1["payload"] = "next";
           html1["content_type"] = "text";
           finalarray.push(html1); 
-       
+        res.cookie("cookie2",counter,{expire:new Date()+1});
        res.json({
           speech: "",
           displayText: "",
@@ -277,6 +277,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
             }
           ]
         })
+      
     }
     else if(counterstore<=10){
          var html1 = {};
@@ -296,7 +297,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
           html1["payload"] = "next";
           html1["content_type"] = "text";
           finalarray.push(html1); 
-       res.cookie("cookie2",counter,{expire:new Date()+1});
+      
        res.json({
           speech: "",
           displayText: "",
