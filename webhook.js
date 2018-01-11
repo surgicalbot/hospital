@@ -221,7 +221,98 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
        
   }
   if(action=="input.prev"){
-    
+      var finalarray=[];
+    var hospitalarray=req.cookies["cookie1"];
+    console.log(req.cookies["cookie1"]);
+    console.log("----------------------------------------------------------------------");
+    console.log(req.cookies["cookie2"]);
+ 
+    var counter=parseInt(req.cookies["cookie2"]);
+    var counterstore=parseInt(req.cookies["cookie2"])-8;
+    var incrm=0;
+    console.log("----------------------------Counter------------------------------------------");
+    console.log(counter);
+    console.log("----------------------------Counterstore------------------------------------------");
+    console.log(counterstore);
+    console.log("--------------------------------Hospitallen------------------------------------------");
+    console.log(hospitalarray.length);
+    if(hospitalarray.length>counterstore){
+    var html1 = {};
+          html1["title"] = "prev";
+          html1["payload"] = "prev";
+          html1["content_type"] = "text";
+          finalarray.push(html1); 
+    for (var treatsurgiment in hospitalarray) {
+      if(incrm<=counterstore && incrm>=counter){
+          html1 = {};
+          html1["title"] = hospitalarray[treatsurgiment];
+          html1["payload"] = hospitalarray[treatsurgiment];
+          html1["content_type"] = "text";
+          finalarray.push(html1);
+          
+       
+      }
+      incrm++;
+    }
+          html1 = {};
+          html1["title"] = "next";
+          html1["payload"] = "next";
+          html1["content_type"] = "text";
+          finalarray.push(html1); 
+        res.cookie("cookie2",counterstore,{expire:new Date()+1});
+       res.json({
+          speech: "",
+          displayText: "",
+          source: 'agent',
+          "messages": [
+            {
+              "type": 4,
+              "platform": "facebook",
+              "payload": {
+                "facebook": {
+                  "text": "Please Select the Operation List",
+                  "quick_replies":finalarray
+                }
+              }
+            }
+          ]
+        })
+    }
+    else if(counterstore<=10){
+         var html1 = {};
+          html1["title"] = "prev";
+          html1["payload"] = "prev";
+          html1["content_type"] = "text";
+          finalarray.push(html1); 
+      for (var treatsurgiment in hospitalarray) {
+      if(incrm<=counterstore && incrm>=counter){  
+          html1 = {};
+          html1["title"] = hospitalarray[treatsurgiment];
+          html1["payload"] = hospitalarray[treatsurgiment];
+          html1["content_type"] = "text";
+          finalarray.push(html1);
+      }
+      incrm++;
+    }
+       res.json({
+          speech: "",
+          displayText: "",
+          source: 'agent',
+          "messages": [
+            {
+              "type": 4,
+              "platform": "facebook",
+              "payload": {
+                "facebook": {
+                  "text": "Please Select the Operation List",
+                  "quick_replies":finalarray
+                }
+              }
+            }
+          ]
+        })
+    }
+       
   }
   if(action == "input.operationlist"){
         mongodb.MongoClient.connect("mongodb://admin:admin123@ds149335.mlab.com:49335/hospital", function (err, database) {
