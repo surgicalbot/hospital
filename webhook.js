@@ -1286,6 +1286,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
       db.collection("surgery").find({
         $and: filterarray
       }).toArray(function (err, result) {
+        console.log(result);
         var surgicalarray = [];
         if (result.length > 0) {
           for (var keys in result) {
@@ -1294,6 +1295,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
               surgicalarray.push(result[keys]["operation Options"]);
             }
           }
+          
           var finallarray = [];
           for (var treatsurgiment in surgicalarray) {
             var html = {};
