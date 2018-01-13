@@ -1203,13 +1203,16 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
             { $or: [{ "HOSPITAL": hospitaltype.toLowerCase() }, { "HOSPITAL": hospitaltype.toUpperCase() }, { "HOSPITAL": capitalizeFirstLetter(hospitaltype) }, { "HOSPITAL": toTitleCase(hospitaltype) }] }
           ]
          }else{
-          hospitaltype=req.body.result.contexts[1].parameters.hospital_type;
-           surgicaltyp=req.body.result.contexts[1].parameters.surgical_type;
+            hospitaltype=req.body.result.contexts[1].parameters.hospital_type;
+            surgicaltyp=req.body.result.contexts[1].parameters.surgical_type;
+          if(hospitaltype && surgicaltyp){   
             filterarray = [
             { $or: [{ "Operation": surgicaltyp.toLowerCase() }, { "Operation": surgicaltyp.toUpperCase() }, { "Operation": capitalizeFirstLetter(surgicaltyp) }, { "Operation": toTitleCase(surgicaltyp) }] },
             { $or: [{ "HOSPITAL": hospitaltype.toLowerCase() }, { "HOSPITAL": hospitaltype.toUpperCase() }, { "HOSPITAL": capitalizeFirstLetter(hospitaltype) }, { "HOSPITAL": toTitleCase(hospitaltype) }] }
            ]
+           }
          }
+                if(hospitaltype && surgicaltyp){ 
           db.collection("surgery").find({
             $and: filterarray
           }).toArray(function (err1, result1) {
@@ -1279,7 +1282,15 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
           });
           db.close();
         });
-    
+        }
+     else 
+           {
+                res.status(200).json({
+                  source: 'webhook',
+                  speech: "I didnt get that",
+                  displayText: "I didnt get that"
+                })
+              }
       }
   if (action == "input.hospital") {
 
