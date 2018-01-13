@@ -1330,7 +1330,8 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
             })
           } 
          }
-          
+         else
+         {
           var finallarray = [];
           for (var treatsurgiment in surgicalarray) {
             var html = {};
@@ -1358,6 +1359,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
               ]
             })
           }
+         }
         }
         else {
           res.status(200).json({
