@@ -97,9 +97,9 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
         if (result.length > 0) {
           var treatmentarray = [];
           for (var keys in result) {
-            console.log(result[keys]["TREATMENT"]);
-            if (treatmentarray.indexOf(result[keys]["OPERATION"]) < 0) {
-              treatmentarray.push(result[keys]["OPERATION"]);
+            
+            if (treatmentarray.indexOf(result[keys]["HOSPITAL"]) < 0) {
+              treatmentarray.push(result[keys]["HOSPITAL"]);
             }
           }
           var html = '';
