@@ -1290,11 +1290,46 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
         var surgicalarray = [];
         if (result.length > 0) {
           for (var keys in result) {
-         
+          if(result[keys]["operation Options"]!=""){
             if (surgicalarray.indexOf(result[keys]["operation Options"]) < 0 && result[keys]["operation Options"]) {
               surgicalarray.push(result[keys]["operation Options"]);
             }
           }
+          }
+         if(surgicalarray.length==0 && result.length>0){
+             for (var keys in result) {
+            if (surgicalarray.indexOf(result[keys]["HOSPITAL"]) < 0 && result[keys]["HOSPITAL"]) {
+              surgicalarray.push(result[keys]["HOSPITAL"]);
+            }
+          }
+          var finallarray = [];
+          for (var treatsurgiment in surgicalarray) {
+            var html = {};
+            html["title"] = surgicalarray[treatsurgiment];
+            html["payload"] = surgicalarray[treatsurgiment];
+            html["content_type"] = "text";
+            finallarray.push(html);
+          }
+           if (html) {
+            res.json({
+              speech: "",
+              displayText: "",
+              source: 'agent',
+              "messages": [
+                {
+                  "type": 4,
+                  "platform": "facebook",
+                  "payload": {
+                    "facebook": {
+                      "text": "Please Select Hospital?",
+                      "quick_replies": finallarray
+                    }
+                  }
+                }
+              ]
+            })
+          } 
+         }
           
           var finallarray = [];
           for (var treatsurgiment in surgicalarray) {
