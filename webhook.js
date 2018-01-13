@@ -1203,8 +1203,8 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
             { $or: [{ "HOSPITAL": hospitaltype.toLowerCase() }, { "HOSPITAL": hospitaltype.toUpperCase() }, { "HOSPITAL": capitalizeFirstLetter(hospitaltype) }, { "HOSPITAL": toTitleCase(hospitaltype) }] }
           ]
          }else{
-            hospitaltype=req.body.result.contexts[1].parameters.hospital_type;
-            surgicaltyp=req.body.result.contexts[1].parameters.surgical_type;
+            hospitaltype=req.body.result.contexts[1].parameters.hospital_type?req.body.result.contexts[1].parameters.hospital_type:req.body.result.contexts[0].parameters.hospital_type?req.body.result.contexts[0].parameters.hospital_type:req.body.result.parameters.hospital_type;
+            surgicaltyp=req.body.result.contexts[1].parameters.surgical_type?req.body.result.contexts[1].parameters.surgical_type:req.body.result.contexts[0].parameters.surgical_type?req.body.result.contexts[0].parameters.surgical_type:req.body.result.parameters.surgical_type;
           if(hospitaltype && surgicaltyp){   
             filterarray = [
             { $or: [{ "Operation": surgicaltyp.toLowerCase() }, { "Operation": surgicaltyp.toUpperCase() }, { "Operation": capitalizeFirstLetter(surgicaltyp) }, { "Operation": toTitleCase(surgicaltyp) }] },
