@@ -77,7 +77,7 @@ if (!req.body || !req.body.result || !req.body.result.parameters) {
   return res.status(400).send('Bad Request')
 }
 let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-parameters
- console.log(req.body.result.contexts);
+
   // Parameters are any entites that Dialogflow has extracted from the request.
   var parameters = req.body.result.contexts.length > 0 ? req.body.result.contexts[0].parameters : req.body.result.parameters; // https://dialogflow.com/docs/actions-and-parameters
   if (action == "input.treatment") {
@@ -1182,9 +1182,9 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
   if (action == "input.hospital1") {
     
         var surgicalarray = [];
-        const hospitaltype = parameters.hospital_type != '' ? parameters.hospital_type : "";
-        const surgicaltyp = parameters.surgical_type != '' ? parameters.surgical_type : "";
-        const operationopt=parameters.operation_options != '' ? parameters.operation_options : "";
+        let hospitaltype = parameters.hospital_type != '' ? parameters.hospital_type : "";
+        let surgicaltyp = parameters.surgical_type != '' ? parameters.surgical_type : "";
+        let operationopt=parameters.operation_options != '' ? parameters.operation_options : "";
         console.log(surgicaltyp);
         var totalCost;
         if(parameters.Statistics)
@@ -1203,6 +1203,8 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
             { $or: [{ "HOSPITAL": hospitaltype.toLowerCase() }, { "HOSPITAL": hospitaltype.toUpperCase() }, { "HOSPITAL": capitalizeFirstLetter(hospitaltype) }, { "HOSPITAL": toTitleCase(hospitaltype) }] }
           ]
          }else{
+          hospitaltype=req.body.result.contexts[1].parameters.hospital_type;
+           surgicaltyp=req.body.result.contexts[1].parameters.surgical_type;
             filterarray = [
             { $or: [{ "Operation": surgicaltyp.toLowerCase() }, { "Operation": surgicaltyp.toUpperCase() }, { "Operation": capitalizeFirstLetter(surgicaltyp) }, { "Operation": toTitleCase(surgicaltyp) }] },
             { $or: [{ "HOSPITAL": hospitaltype.toLowerCase() }, { "HOSPITAL": hospitaltype.toUpperCase() }, { "HOSPITAL": capitalizeFirstLetter(hospitaltype) }, { "HOSPITAL": toTitleCase(hospitaltype) }] }
