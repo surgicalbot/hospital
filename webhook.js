@@ -1281,8 +1281,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
               }
           });
           db.close();
-        });
-        }
+    }
      else 
            {
                 res.status(200).json({
@@ -1290,7 +1289,9 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
                   speech: "I didnt get that",
                   displayText: "I didnt get that"
                 })
-              }
+              }               
+        });
+       
       }
   if (action == "input.hospital") {
 
