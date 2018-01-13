@@ -892,6 +892,73 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
       db.close();
     });
   }
+  
+  if (action == "hospital.operationtypess") {
+    var hospitalarray = [];
+    const surgicaltyp = parameters.surgical_type != '' ? parameters.surgical_type : "";
+    const treatmentyp = parameters.treatment_type != '' ? parameters.treatment_type : "";
+    mongodb.MongoClient.connect("mongodb://admin:admin123@ds149335.mlab.com:49335/hospital", function (err, database) {
+      var db = database;
+      if (err) {
+        console.log(err);
+
+      }
+      filterarray = [
+        { $or: [{ "Operation": surgicaltyp.toLowerCase() }, { "Operation": surgicaltyp.toUpperCase() }, { "Operation": capitalizeFirstLetter(surgicaltyp) }, { "Operation": toTitleCase(surgicaltyp) }] },
+        { $or: [{ "TYPE": treatmentyp.toLowerCase() }, { "TYPE": treatmentyp.toUpperCase() }, { "TYPE": capitalizeFirstLetter(treatmentyp) }, { "TYPE": toTitleCase(treatmentyp) }] }
+      ]
+      db.collection("surgery").find({
+        $and: filterarray
+      }).toArray(function (err, result) {
+        if (result.length > 0) {
+          var hospitalarray = [];
+          for (var keys in result) {
+           if (hospitalarray.indexOf(result[keys]["HOSPITAL"]) < 0) {
+              hospitalarray.push(result[keys]["HOSPITAL"]);
+            }
+          }
+          var finallarray = [];
+          for (var treatsurgiment in hospitalarray) {
+            var html = {};
+            html["title"] = hospitalarray[treatsurgiment];
+            html["payload"] = hospitalarray[treatsurgiment];
+            html["content_type"] = "text";
+            finallarray.push(html);
+          }
+          console.log();
+          if (html) {
+            res.json({
+              speech: "",
+              displayText: "",
+              source: 'agent',
+              "messages": [
+                {
+                  "type": 4,
+                  "platform": "facebook",
+                  "payload": {
+                    "facebook": {
+                      "text": "Select the Operation type",
+                      "quick_replies": finallarray
+                    }
+                  }
+                }
+              ]
+            })
+          }
+        }
+        else {
+          res.status(200).json({
+            source: 'webhook',
+            speech: "Sorry I didnt get that. Select the type",
+            displayText: "Sorry I didnt get that. Select the type"
+          })
+        }
+      });
+      db.close();
+    });
+  }
+  
+  
   if (action == "hospital") {
     var hospitalarray = [];
     const hospitaltype = parameters.hospital_type != '' ? parameters.hospital_type : "";
