@@ -1185,6 +1185,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
         const hospitaltype = parameters.hospital_type != '' ? parameters.hospital_type : "";
         const surgicaltyp = parameters.surgical_type != '' ? parameters.surgical_type : "";
         const operationopt=parameters.operation_options != '' ? parameters.operation_options : "";
+        console.log(surgicaltyp);
         var totalCost;
         if(parameters.Statistics)
         {
