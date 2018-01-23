@@ -1227,7 +1227,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
               {
               
               for (var key in result1[key1]) {
-                if (key != '_id' && key.toLowerCase() != "date" && key.toLowerCase() != "operation options" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital") {
+                if (key != '_id' && key.toLowerCase() != "date" && key.toLowerCase() != "operation options" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital" && key!="") {
                   html += `${key}: ${result1[key1][key]}\n`;
                 }
               }
