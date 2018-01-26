@@ -524,9 +524,15 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
         var html = '';
         if (result1.length > 0) {
           for (var key in result1[0]) {
-            if (key != '_id' && key.toLowerCase() != "date" && key.toLowerCase() != "operation options" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital" && key!="") {
+            if (key != '_id' && key.toLowerCase() != "date" &&  key!="") {
+              if(key.toLowerCase() != "operation options" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital"){
+                 html += `${result1[0][key]}\n`;
+              }
+              else{
               html += `${key}: ${result1[0][key]}\n`;
+              }
             }
+           
           }
           if (html) {
             db.collection("surgery").find({
@@ -614,8 +620,13 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
         var html = '';
         if (result1.length > 0) {
           for (var key in result1[0]) {
-            if (key != '_id' && key!="" && key.toLowerCase() != "date" && key.toLowerCase() != "operation options" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital"  ) {
+            if (key != '_id' && key.toLowerCase() != "date" &&  key!="") {
+              if(key.toLowerCase() != "operation options" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital"){
+                 html += `${result1[0][key]}\n`;
+              }
+              else{
               html += `${key}: ${result1[0][key]}\n`;
+              }
             }
           }
           if (html) {
@@ -760,9 +771,14 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
               var html = '';
               if (result1.length > 0) {
                 for (var key in result1[0]) {
-                  if (key != '_id' && key.toLowerCase() != "date" &&  key.toLowerCase() != "date" && key.toLowerCase() != "operation options" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital" && key!="") {
-                    html += `${key}: ${result1[0][key]}\n`;
-                  }
+              if (key != '_id' && key.toLowerCase() != "date" &&  key!="") {
+              if(key.toLowerCase() != "operation options" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital"){
+                 html += `${result1[0][key]}\n`;
+              }
+              else{
+              html += `${key}: ${result1[0][key]}\n`;
+              }
+            }
                 }
                 if (html) {
                   db.collection("surgery").find({
@@ -1203,7 +1219,6 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
             { $or: [{ "HOSPITAL": hospitaltype.toLowerCase() }, { "HOSPITAL": hospitaltype.toUpperCase() }, { "HOSPITAL": capitalizeFirstLetter(hospitaltype) }, { "HOSPITAL": toTitleCase(hospitaltype) }] }
           ]
          }else{
-           console.log(JSON.stringify(req.body.result));
             hospitaltype=req.body.result.contexts[1].parameters.hospital_type?req.body.result.contexts[1].parameters.hospital_type:req.body.result.contexts[0].parameters.hospital_type?req.body.result.contexts[0].parameters.hospital_type:req.body.result.parameters.hospital_type;
             surgicaltyp=req.body.result.contexts[1].parameters.surgical_type?req.body.result.contexts[1].parameters.surgical_type:req.body.result.contexts[0].parameters.surgical_type?req.body.result.contexts[0].parameters.surgical_type:req.body.result.parameters.surgical_type;
           if(hospitaltype && surgicaltyp){   
@@ -1217,19 +1232,22 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
           db.collection("surgery").find({
             $and: filterarray
           }).toArray(function (err1, result1) {
-          // console.log(result1)
             if (err1) throw err1;
             var html = '';
             if (result1.length > 0) {
               for(var key1 in result1){
-                console.log(key1);
               if(result1[key1]["Statistics"]=="50th percentile" || result1[key1]["Statistics"]=="Median")
               {
               
               for (var key in result1[key1]) {
-                if (key != '_id' && key.toLowerCase() != "date" && key.toLowerCase() != "operation options" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital" && key!="") {
-                  html += `${key}: ${result1[key1][key]}\n`;
-                }
+          if (key != '_id' && key.toLowerCase() != "date" &&  key!="") {
+              if(key.toLowerCase() != "operation options" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital"){
+                 html += `${result1[0][key]}\n`;
+              }
+              else{
+              html += `${key}: ${result1[0][key]}\n`;
+              }
+            }
               }
             }
             }
@@ -1425,8 +1443,13 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
         var html = '';
         if (result.length > 0) {
           for (var key in result[0]) {
-            if (key != '_id' && key.toLowerCase() != "date" && key.toLowerCase() != "date" && key.toLowerCase() != "operation options" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital" && key!="") {
-              html += `${key}: ${result[0][key]}\n`;
+             if (key != '_id' && key.toLowerCase() != "date" &&  key!="") {
+              if(key.toLowerCase() != "operation options" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital"){
+                 html += `${result1[0][key]}\n`;
+              }
+              else{
+              html += `${key}: ${result1[0][key]}\n`;
+              }
             }
           }
           if (html) {
