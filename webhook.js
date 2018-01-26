@@ -508,11 +508,12 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
         if (result1.length > 0) {
           for (var key in result1[0]) {
             if (key != '_id' && key.toLowerCase() != "date" &&  key!="") {
-              if(key.toLowerCase() != "operation options" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital"){
-                 html += `${result1[0][key]}\n`;
+              if(key.toLowerCase() != "operation options" && key.toLowerCase()!="website" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital"){
+               
+                 html += `${key}: ${result1[0][key]}\n`;
               }
               else{
-              html += `${key}: ${result1[0][key]}\n`;
+               html += `${result1[0][key]}\n`;
               }
             }
            
@@ -604,11 +605,11 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
         if (result1.length > 0) {
           for (var key in result1[0]) {
             if (key != '_id' && key.toLowerCase() != "date" &&  key!="") {
-              if(key.toLowerCase() != "operation options" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital"){
-                 html += `${result1[0][key]}\n`;
+            if(key.toLowerCase() != "operation options" && key.toLowerCase()!="website" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital"){
+               html += `${key}: ${result1[0][key]}\n`;
               }
               else{
-              html += `${key}: ${result1[0][key]}\n`;
+               html += `${result1[0][key]}\n`;
               }
             }
           }
@@ -755,11 +756,12 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
               if (result1.length > 0) {
                 for (var key in result1[0]) {
               if (key != '_id' && key.toLowerCase() != "date" &&  key!="") {
-              if(key.toLowerCase() != "operation options" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital"){
-                 html += `${result1[0][key]}\n`;
+              if(key.toLowerCase() != "operation options" && key.toLowerCase()!="website" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital"){
+               
+                 html += `${key}: ${result1[0][key]}\n`;
               }
               else{
-              html += `${key}: ${result1[0][key]}\n`;
+               html += `${result1[0][key]}\n`;
               }
             }
                 }
@@ -1221,11 +1223,12 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
               
               for (var key in result1[key1]) {
           if (key != '_id' && key.toLowerCase() != "date" &&  key!="") {
-              if(key.toLowerCase() != "operation options" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital"){
-                 html += `${result1[0][key]}\n`;
+             if(key.toLowerCase() != "operation options" && key.toLowerCase()!="website" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital"){
+               
+                 html += `${key}: ${result1[0][key]}\n`;
               }
               else{
-              html += `${key}: ${result1[0][key]}\n`;
+               html += `${result1[0][key]}\n`;
               }
             }
               }
@@ -1416,11 +1419,12 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
         if (result.length > 0) {
           for (var key in result[0]) {
              if (key != '_id' && key.toLowerCase() != "date" &&  key!="") {
-              if(key.toLowerCase() != "operation options" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital"){
-                 html += `${result1[0][key]}\n`;
+              if(key.toLowerCase() != "operation options" && key.toLowerCase()!="website" && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital"){
+               
+                 html += `${key}: ${result[0][key]}\n`;
               }
               else{
-              html += `${key}: ${result1[0][key]}\n`;
+               html += `${result[0][key]}\n`;
               }
             }
           }
