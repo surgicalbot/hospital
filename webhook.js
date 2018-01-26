@@ -129,19 +129,9 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
   if(action=="input.next"){
     var finalarray=[];
     var hospitalarray=req.cookies["cookie1"];
-    console.log(req.cookies["cookie1"]);
-    console.log("----------------------------------------------------------------------");
-    console.log(req.cookies["cookie2"]);
- 
     var counter=parseInt(req.cookies["cookie2"]);
     var counterstore=parseInt(req.cookies["cookie2"])+8;
     var incrm=0;
-    console.log("----------------------------Counter------------------------------------------");
-    console.log(counter);
-    console.log("----------------------------Counterstore------------------------------------------");
-    console.log(counterstore);
-    console.log("--------------------------------Hospitallen------------------------------------------");
-    console.log(hospitalarray.length);
     if(hospitalarray.length>counterstore){
     var html1 = {};
           html1["title"] = "prev";
@@ -223,19 +213,12 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
   if(action=="input.prev"){
       var finalarray=[];
     var hospitalarray=req.cookies["cookie1"];
-    console.log(req.cookies["cookie1"]);
-    console.log("----------------------------------------------------------------------");
-    console.log(req.cookies["cookie2"]);
+
  
     var counter=parseInt(req.cookies["cookie2"])-8;
     var counterstore=parseInt(req.cookies["cookie2"]);
     var incrm=0;
-    console.log("----------------------------Counter------------------------------------------");
-    console.log(counter);
-    console.log("----------------------------Counterstore------------------------------------------");
-    console.log(counterstore);
-    console.log("--------------------------------Hospitallen------------------------------------------");
-    console.log(hospitalarray.length);
+
     if(counter>10){
     var html1 = {};
           html1["title"] = "prev";
@@ -876,7 +859,6 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
             html["content_type"] = "text";
             finallarray.push(html);
           }
-          console.log();
           if (html) {
             res.json({
               speech: "",
@@ -941,7 +923,6 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
             html["content_type"] = "text";
             finallarray.push(html);
           }
-          console.log();
           if (html) {
             res.json({
               speech: "",
@@ -1005,7 +986,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
             html["content_type"] = "text";
             finallarray.push(html);
           }
-          console.log();
+
           if (html) {
             res.json({
               speech: "",
@@ -1069,7 +1050,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
             html["content_type"] = "text";
             finallarray.push(html);
           }
-          console.log();
+
           if (html) {
             res.json({
               speech: "",
@@ -1201,7 +1182,6 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
         let hospitaltype = parameters.hospital_type != '' ? parameters.hospital_type : "";
         let surgicaltyp = parameters.surgical_type != '' ? parameters.surgical_type : "";
         let operationopt=parameters.operation_options != '' ? parameters.operation_options : "";
-        console.log(surgicaltyp);
         var totalCost;
         if(parameters.Statistics)
         {
@@ -1252,7 +1232,6 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
             }
             }
               if (html) {
-                console.log("srini");
                 var finallarray = [];
                 var hospitalarray = [];
                 for (var keys in result1) {
@@ -1327,7 +1306,6 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
       db.collection("surgery").find({
         $and: filterarray
       }).toArray(function (err, result) {
-        console.log(result);
         var surgicalarray = [];
         if (result.length > 0) {
           for (var keys in result) {
@@ -1418,18 +1396,12 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
   if (action == "input.surgery") {
     for (var rsltarray in req.body.result.contexts) {
       if (rsltarray.name == "surgical_know-followup") {
-        console.log(rsltarray.name);
         parameters = rsltarray.parameters;
       }
     }
     const hospittyp = parameters.hospital_type != '' ? parameters.hospital_type : "Union Hospital";
     const surgicaltyp = parameters.surgical_type;
     const treatmentyp = parameters.treatment_type != '' ? parameters.treatment_type : "";
-    //   console.log(parameters);
-    //   console.log(req.body.result.contexts[0].parameters);
-    //   console.log(req.body.result.contexts);
-    //   console.log(hospittyp + "=>" + surgicaltyp + "=>" + treatmentyp);
-    //   console.log(req.body.result.metadata.intentName);
     const totalCost = (parameters.Statistics != "" && parameters.Statistics != null && parameters.Statistics != undefined) ? parameters.Statistics : "mean";
     mongodb.MongoClient.connect("mongodb://admin:admin123@ds149335.mlab.com:49335/hospital", function (err, database) {
       if (err) {
