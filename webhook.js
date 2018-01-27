@@ -87,6 +87,7 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
   else{
      parameters = req.body.result.contexts.length > 0 ? req.body.result.contexts[0].parameters:req.body.result.parameters; // https://dialogflow.com/docs/actions-and-parameters
   }
+  console.log(JSON.stringify(parameters));
   if (action == "input.treatment") {
     var treatmentarray = [];
     const treatmentyp = parameters.treatment_type != '' ? parameters.treatment_type : "";
