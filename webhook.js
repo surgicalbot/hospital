@@ -79,7 +79,14 @@ if (!req.body || !req.body.result || !req.body.result.parameters) {
 let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-parameters
 
   // Parameters are any entites that Dialogflow has extracted from the request.
-  var parameters = req.body.result.contexts.length > 0 ? ((req.body.result.contexts[1].parameters.length> req.body.result.contexts[0].parameters.length) ? req.body.result.contexts[1].parameters: req.body.result.contexts[0].parameters): req.body.result.parameters; // https://dialogflow.com/docs/actions-and-parameters
+   var parameters;
+  if(req.body.result.contexts.length>1)
+  {
+  parameters = req.body.result.contexts.length > 0 ? ((req.body.result.contexts[1].parameters.length> req.body.result.contexts[0].parameters.length) ? req.body.result.contexts[1].parameters: req.body.result.contexts[0].parameters): req.body.result.parameters; // https://dialogflow.com/docs/actions-and-parameters
+  }
+  else{
+     parameters = req.body.result.contexts.length > 0 ? req.body.result.contexts[0].parameters:req.body.result.parameters; // https://dialogflow.com/docs/actions-and-parameters
+  }
   if (action == "input.treatment") {
     var treatmentarray = [];
     const treatmentyp = parameters.treatment_type != '' ? parameters.treatment_type : "";
