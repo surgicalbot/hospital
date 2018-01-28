@@ -79,16 +79,8 @@ if (!req.body || !req.body.result || !req.body.result.parameters) {
 let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-parameters
 
   // Parameters are any entites that Dialogflow has extracted from the request.
-   var parameters;
-  if(req.body.result.contexts.length>1)
-  {
-  parameters = req.body.result.contexts.length > 0 ? ((req.body.result.contexts[1].parameters.length> req.body.result.contexts[0].parameters.length) ? req.body.result.contexts[1].parameters: req.body.result.contexts[0].parameters): req.body.result.parameters; // https://dialogflow.com/docs/actions-and-parameters
-  }
-  else{
-     parameters = req.body.result.contexts.length > 0 ? req.body.result.contexts[0].parameters:req.body.result.parameters; // https://dialogflow.com/docs/actions-and-parameters
-  }
-  console.log(JSON.stringify(parameters));
-  if (action == "input.treatment") {
+   var parameters=req.body.result.contexts.length>0?req.body.result.contexts[0].parameters:req.body.result.parameters;
+ if (action == "input.treatment") {
     var treatmentarray = [];
     const treatmentyp = parameters.treatment_type != '' ? parameters.treatment_type : "";
     mongodb.MongoClient.connect("mongodb://admin:admin123@ds149335.mlab.com:49335/hospital", function (err, database) {
@@ -1406,65 +1398,111 @@ let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-
 
   }
   if (action == "input.surgery") {
-    for (var rsltarray in req.body.result.contexts) {
-      if (rsltarray.name == "surgical_know-followup") {
-        parameters = rsltarray.parameters;
-      }
-    }
-    const hospittyp = parameters.hospital_type != '' ? parameters.hospital_type : "Union Hospital";
-    const surgicaltyp = parameters.surgical_type;
-    const treatmentyp = parameters.treatment_type != '' ? parameters.treatment_type : "";
-    const totalCost = (parameters.Statistics != "" && parameters.Statistics != null && parameters.Statistics != undefined) ? parameters.Statistics : "mean";
+ let hospitaltype = parameters.hospital_type;
+ let surgicaltyp;
+ let treatmentyp;
+ let operationopt;
+if(parameters.hasOwnProperty('surgical_type'))
+{
+    surgicaltyp = parameters.surgical_type;
+}
+    if(parameters.hasOwnProperty('treatment_type'))
+{
+    treatmentyp = parameters.treatment_type;
+}
+if(parameters.hasOwnProperty("operation_options"))
+{
+operationopt=parameters.operation_options;
+
+}
+    const totalCost = parameters.Statistics;
+console.log(JSON.stringify(parameters));
+console.log(hospitaltype+"=>"+surgicaltyp+"=>"+treatmentyp+"=>"+totalCost);
     mongodb.MongoClient.connect("mongodb://admin:admin123@ds149335.mlab.com:49335/hospital", function (err, database) {
       if (err) {
         console.log(err);
       }
-      db.collection("surgery").find({
+var db=database;
+   filterarray = [
+        { $or: [{ "HOSPITAL": hospitaltype.toLowerCase() }, { "HOSPITAL": hospitaltype.toUpperCase() }, { "HOSPITAL": capitalizeFirstLetter(hospitaltype) }, { "HOSPITAL": toTitleCase(hospitaltype) }] },
+         { $or: [{ "operation Options": operationopt.toLowerCase() }, { "operation Options": operationopt.toUpperCase() }, { "operation Options": capitalizeFirstLetter(operationopt) }, { "operation Options": toTitleCase(operationopt) }] },
+        { $or: [{ "Operation": surgicaltyp.toLowerCase() }, { "Operation": surgicaltyp.toUpperCase() }, { "Operation": capitalizeFirstLetter(surgicaltyp) }, { "Operation": toTitleCase(surgicaltyp) }] },
+        { $or: [{ "Statistics": totalCost.toLowerCase() }, { "Statistics": totalCost.toUpperCase() }, { "Statistics": capitalizeFirstLetter(totalCost) }, { "Statistics": toTitleCase(totalCost) }] }
+       
+        
+      ];
+   db.collection("surgery").find({
         $and: filterarray
-      }).toArray(function (err, result) {
-        if (err) throw err;
-        // if (req.body.result.metadata.intentName == "BreakdownC") {
+      }).toArray(function (err1, result1) {
+        if (err1) throw err1;
         var html = '';
-        if (result.length > 0) {
-          for (var key in result[0]) {
-             if (key != '_id' && key.toLowerCase() != "date" &&  key!="" && key.toLowerCase()!="website") {
+        if (result1.length > 0) {
+          for (var key in result1[0]) {
+            if (key != '_id' && key.toLowerCase() != "date" &&  key!="" && key.toLowerCase()!="website") {
               if(key.toLowerCase() != "operation options" && key.toLowerCase() != "type"  && key.toLowerCase() != "operation" && key.toLowerCase() != "orignal description" && key.toLowerCase() != "hospital"){
                
-                 html += `${key}: ${result[0][key]}\n`;
+                 html += `${key}: ${result1[0][key]}\n`;
               }
               else{
-               html += `${result[0][key]}\n`;
+               html += `${result1[0][key]}\n`;
               }
             }
+           
           }
+console.log(html);
           if (html) {
+            db.collection("surgery").find({
+              $and:[{ $or: [{ "HOSPITAL": hospitaltype.toLowerCase() }, { "HOSPITAL": hospitaltype.toUpperCase() }, { "HOSPITAL": capitalizeFirstLetter(hospitaltype) }, { "HOSPITAL": toTitleCase(hospitaltype) }] },
+         { $or: [{ "operation Options": operationopt.toLowerCase() }, { "operation Options": operationopt.toUpperCase() }, { "operation Options": capitalizeFirstLetter(operationopt) }, { "operation Options": toTitleCase(operationopt) }] },
+        { $or: [{ "Operation": surgicaltyp.toLowerCase() }, { "Operation": surgicaltyp.toUpperCase() }, { "Operation": capitalizeFirstLetter(surgicaltyp) }, { "Operation": toTitleCase(surgicaltyp) }] }]
+            }).toArray(function (err2, result2) {
+console.log(JSON.stringify(result2));
+            var finallarray = [];
+            var hospitalarray = [];
+            for (var keys in result2) {
+             if (hospitalarray.indexOf(result2[keys]["Statistics"]) < 0) {
+              if(result2[keys]["Statistics"]){
+                hospitalarray.push(result2[keys]["Statistics"]);
+              }
+              }
+            }
+            for (var treatsurgiment in hospitalarray) {
+              var html1 = {};
+              html1["title"] = hospitalarray[treatsurgiment];
+              html1["payload"] = hospitalarray[treatsurgiment];
+              html1["content_type"] = "text";
+              finallarray.push(html1);
+            }
             html += "\ninterested in min/max/median case instead? or other hospital?";
+            res.json({
+              speech: "",
+              displayText: "",
+              source: 'agent',
+              "messages": [
+                {
+                  "type": 4,
+                  "platform": "facebook",
+                  "payload": {
+                    "facebook": {
+                      "text": html,
+                      "quick_replies": finallarray
+                    }
+                  }
+                }
+              ]
+            })
+          })
+          }
+        }
+        else 
+        {
             res.status(200).json({
               source: 'webhook',
-              speech: html,
-              displayText: html
+              speech: "I didnt get that",
+              displayText: "I didnt get that"
             })
           }
-        }
-        else {
-          res.status(200).json({
-            source: 'webhook',
-            speech: "I didnt get that",
-            displayText: "I didnt get that"
-          })
-        }
-
-        // }
-        // else {
-        //   res.status(200).json({
-        //     source: 'webhook',
-        //     speech: `Invoice Amount: HK$ ${result[0]["Invoice amount"]}. \n\n 1. Do you want to know any other Statistics like Mean, Median, Min, Max of Invoice Amount  \n  2.Do u want breakdown eg operation theatre, doc fees`,
-        //     displayText: `Invoice Amount: HK$ ${result[0]["Invoice amount"]}. \n   \n 1. Do you want to know any other Statistics like Mean, Median, Min, Max of Invoice Amount  \n  2.Do u want breakdown eg operation theatre, doc fees`
-        //   })
-
-      // }
-      db.close();
-    });
+      }); 
   });
 
 }
