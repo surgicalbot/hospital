@@ -21,6 +21,44 @@ filename: function (req, file, callback) {
 }
 });
 var upload = multer({ storage: storage }).single('userPhoto');
+app.post('/api/photodoc', function (req, res) {
+    upload(req, res, function (err) {
+      if (err) {
+        console.log(err);
+        return res.end("Error uploading file.");
+      }
+      var model = null;
+      xlsxj({
+        input: __dirname + "/uploads/" + req.file.filename,
+        output: __dirname + "/uploads/" + "output.json"
+      }, function (err, result) {
+        if (err) {
+          console.error(err);
+        } else {
+          fs.unlink(path.join(__dirname + "/uploads/" + req.file.filename), function () {
+            fs.unlink(path.join(__dirname + "/uploads/output.json"), function () {
+              mongodb.MongoClient.connect("mongodb://admin:admin123@ds149335.mlab.com:49335/doctor", function (err, database) {
+                if (err) {
+                  console.log(err);
+                  process.exit(1);
+                }
+                // Save database object from the callback for reuse.
+                db = database;
+                db.collection("doctor").insertMany(result, function (err, response) {
+                  res.json({ file: "uploaded" });
+                });
+                db.close();
+              });
+              // setTimeout(() => {
+              //   res.redirect("/formupload");
+              // }, 2000)
+            })
+          })
+        }
+      });
+    
+    });
+    });
 app.post('/api/photo', function (req, res) {
 upload(req, res, function (err) {
   if (err) {
@@ -1513,7 +1551,9 @@ res.sendFile(__dirname + '/uploadform.html');
 app.get('/ricohwebsite', function (req, res) {
 res.sendfile(__dirname + '/myricoh.html');
 });
-
+app.get("/doctorupload", function (req, res) {
+res.sendFile(__dirname + '/doctorform.html');
+});
 app.get('/chat', function (req, res) {
 res.sendfile(__dirname + '/index.html');
 });
